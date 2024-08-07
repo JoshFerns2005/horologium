@@ -1,0 +1,17 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+header {
+    box-shadow: 0 4px 2px -2px gray;
+}
+
+main {
+    padding: 1rem;
+}
+
+footer {
+    background-color: #f3f4f6;
+    padding: 1rem;
+    text-align: center;
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-gray-100">
+    <header class="bg-gray-800 text-white p-4">
+        <nav class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold">Horologium</a>
+            <div class="flex items-center space-x-4">
+                <a href="cart.html" class="text-xl">Cart (<span id="cart-count">0</span>)</a>
+                <div id="user-info" class="text-lg">
+                    <!-- User greeting will be injected here -->
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 bg-white shadow-lg rounded-lg">
+        <h2 class="text-2xl font-semibold mb-4">Personal Information</h2>
+        <div id="profile-info" class="space-y-4">
+            <!-- User profile information will be injected here -->
+        </div>
+        <button id="logout-btn"
+            class="mt-6 w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600">Logout</button>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userInfo = document.getElementById('user-info');
+            const profileInfo = document.getElementById('profile-info');
+            const logoutBtn = document.getElementById('logout-btn');
+            const token = localStorage.getItem('token');    
+            const cartCount = document.getElementById('cart-count');
+
+
+            if (token) {
+                fetch('http://localhost:3000/api/user', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(user => {
+                        if (user && user.first_name) {
+                            userInfo.innerHTML = `Hello, ${user.first_name}! <a href="index.html" class="text-white hover:underline">Home</a> | <a href="logout.html" class="text-white hover:underline">Logout</a>`;
+                            profileInfo.innerHTML = `
+                            <p><strong>First Name:</strong> ${user.first_name}</p>
+                            <p><strong>Last Name:</strong> ${user.last_name}</p>
+                            <p><strong>Email:</strong> ${user.email}</p>
+                            <p><strong>Phone Number:</strong> ${user.phone_number}</p>
+                            <p><strong>Address:</strong> ${user.address_line1}, ${user.address_line2 || 'N/A'}, ${user.city}, ${user.state}, ${user.postal_code}, ${user.country}</p>
+                        `;
+                        } else {
+                            throw new Error('Invalid token');
+                        }
+                    })
+                    .catch(() => {
+                        showAnonymousUser();
+                    });
+
+                fetch('http://localhost:3000/api/cart', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(cartItems => {
+                        cartCount.textContent = cartItems.length;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching cart count:', error);
+                        cartCount.textContent = '0';
+
+                    });
+            } else {
+                showAnonymousUser();
+            }
+
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            });
+
+            function showAnonymousUser() {
+                userInfo.innerHTML = `Anonymous | <a href="login.html" class="text-white hover:underline">Login</a> | <a href="register.html" class="text-white hover:underline">Register</a>`;
+                profileInfo.innerHTML = '<p>Please log in to see your profile information.</p>';
+                logoutBtn.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

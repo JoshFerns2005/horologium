@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horologium - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="bg-gray-800 text-white p-4">
+        <nav class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold">Horologium</a>
+            <div class="flex items-center space-x-4">
+                <a href="cart.html" class="text-xl">Cart (<span id="cart-count">0</span>)</a>
+                <div id="user-info" class="text-lg">
+                    <!-- User greeting will be injected here -->
+                </div>
+            </div>
+        </nav>
+    </header>
+    <script src="js/header.js"></script>
+    
+    <main class="container mx-auto p-4">
+        <div class="mb-4 flex justify-between">
+            <input type="text" id="search" placeholder="Search watches..." class="p-2 border rounded">
+            <select id="filter-brand" class="p-2 border rounded">
+                <option value="">All Brands</option>
+                <!-- Brands options will be added dynamically -->
+            </select>
+        </div>
+        <div id="watches" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Watches will be added dynamically -->
+        </div>
+    </main>
+    <script src="js/main.js"></script>
+</body>
+</html>
