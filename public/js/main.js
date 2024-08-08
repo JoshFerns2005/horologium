@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="images/watch_images/${watch.image}" alt="${watch.name}" class="w-full h-48 object-cover mb-2">
                     <h2 class="text-lg font-bold">${watch.name}</h2>
                     <p class="text-gray-700">$${watch.price}</p>
+                    <p class="text-gray-700">${watch.stock}</p>
+
                     <a href="product.html?id=${watch.id}" class="bg-blue-500 text-white p-2 rounded mt-2 inline-block">View Details</a>
                 `;
                 watchContainer.appendChild(watchElement);
@@ -45,6 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <img src="images/watch_images/${watch.image}" alt="${watch.name}" class="w-full h-48 object-cover mb-2">
                         <h2 class="text-lg font-bold">${watch.name}</h2>
                         <p class="text-gray-700">$${watch.price}</p>
+                        <p class="text-gray-700">$${watch.stock}</p>
+
                         <a href="product.html?id=${watch.id}" class="bg-blue-500 text-white p-2 rounded mt-2 inline-block">View Details</a>
                     `;
                     watchContainer.appendChild(watchElement);
@@ -72,31 +76,31 @@ document.addEventListener('DOMContentLoaded', () => {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-        return response.json();
-    })
-    .then(user => {
-        userInfo.innerHTML = `
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            return response.json();
+        })
+        .then(user => {
+            userInfo.innerHTML = `
             <span>Hello, ${user.first_name}</span>
             <a href="profile.html" class="ml-4">Profile</a>
             <button id="logout" class="ml-4 bg-red-500 text-white p-2 rounded">Logout</button>
         `;
 
-        document.getElementById('logout').addEventListener('click', () => {
-            localStorage.removeItem('token');
-            window.location.reload();
-        });
-    })
-    .catch(error => {
-        userInfo.innerHTML = `
+            document.getElementById('logout').addEventListener('click', () => {
+                localStorage.removeItem('token');
+                window.location.reload();
+            });
+        })
+        .catch(error => {
+            userInfo.innerHTML = `
             <a href="login.html" class="ml-4">Login</a>
             <a href="register.html" class="ml-4">Register</a>
         `;
-        console.error('Error fetching user info:', error);
-    });
+            console.error('Error fetching user info:', error);
+        });
 
     // Fetch cart count
     fetch('http://localhost:3000/api/cart', {
@@ -104,13 +108,13 @@ document.addEventListener('DOMContentLoaded', () => {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     })
-    .then(response => response.json())
-    .then(cartItems => {
-        cartCount.textContent = cartItems.length;
-    })
-    .catch(error => {
-        console.error('Error fetching cart count:', error);
-        cartCount.textContent = '0';
+        .then(response => response.json())
+        .then(cartItems => {
+            cartCount.textContent = cartItems.length;
+        })
+        .catch(error => {
+            console.error('Error fetching cart count:', error);
+            cartCount.textContent = '0';
 
-    });
+        });
 });

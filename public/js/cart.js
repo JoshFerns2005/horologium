@@ -67,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h2 class="text-lg font-bold">${item.name}</h2>
                 <p class="text-gray-700">${item.brand}</p>
                 <p class="text-gray-700">Price: ₹${item.price}</p>
+                <p class="text-gray-700">Stock: ${item.stock}</p>
+
                 <p class="text-gray-700">Quantity: ${item.quantity}</p>
                 <button class="remove-item bg-red-500 text-white p-2 rounded mt-2" data-watch-id="${item.id}">Remove from Cart</button>
             `;

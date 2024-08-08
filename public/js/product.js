@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <h1 class="text-3xl font-bold">${watch.name}</h1>
             <p class="text-gray-600">${watch.brand}</p>
             <p class="text-gray-800 mt-2 text-lg">₹${watch.price}</p>
+            <p class="mt-2">${watch.stock}</p>
+
             <p class="mt-2">${watch.description}</p>
             <button id="add-to-cart" class="bg-blue-500 text-white p-2 rounded mt-4">Add to Cart</button>
         `;
